@@ -19,7 +19,15 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="container mx-auto px-4">
         {recipeList && recipeList.length > 0 ? (
-          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="
+  grid
+  grid-cols-1
+  sm:grid-cols-2
+  md:grid-cols-3
+  lg:grid-cols-4
+  gap-6
+  px-4
+">
             {recipeList.map((item) => (
               <RecipeItem key={item.id} item={item} />
             ))}

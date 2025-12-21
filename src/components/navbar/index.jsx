@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { GlobalContext } from "../../context";
 
-export default function Navbar() {
+ export default function Navbar() {
   const { searchParam, setSearchParam , handleSubmit } = useContext(GlobalContext);
 
   console.log(searchParam);
@@ -11,24 +11,85 @@ export default function Navbar() {
     <nav className="flex justify-between items-center py-8 container mx-auto flex-col lg:flex-row gap-5 lg:gap-0">
       <h2 className="text-3xl font-extrabold tracking-wide">
   <NavLink
-    to="/"
-    className="bg-gradient-to-r text-orange-600 relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:after:w-full"
-  >
-    FoodRecipe 🍕
-  </NavLink>
+  to="/"
+  className="
+    inline-flex
+    items-center
+    gap-2
+    text-orange-600
+    font-extrabold
+    relative
+    after:absolute
+    after:left-0
+    after:-bottom-1
+    after:h-[2px]
+    after:w-0
+    after:bg-orange-500
+    after:transition-all
+    after:duration-300
+    hover:after:w-full
+  "
+>
+  <span>FoodRecipe</span>
+  <span className="leading-none">🍕</span>
+</NavLink>
+
+
 </h2>
 
 
-      <form onSubmit={handleSubmit}>
-  <input
-    type="text"
-    name="search"
-    value={searchParam}
-    onChange={(event) => setSearchParam(event.target.value)}
-    placeholder="Enter Items....."
-    className="bg-white/80 p-3 px-10 rounded-full outline-none w-[400px] lg:w-[550px] shadow-lg shadow-red-200 focus:shadow-red-300 focus:ring-2 focus:ring-red-300 transition-all duration-300"
-  />
+  <form onSubmit={handleSubmit} className="w-full flex justify-center px-2">
+  <div
+    className="
+      flex
+      w-full
+      max-w-[520px]
+      bg-white/80
+      rounded-full
+      shadow-lg shadow-red-200
+      overflow-hidden
+      focus-within:ring-2
+      focus-within:ring-red-300
+    "
+  >
+    <input
+      type="text"
+      name="search"
+      value={searchParam}
+      onChange={(e) => setSearchParam(e.target.value)}
+      placeholder="Enter items..."
+      className="
+        flex-1
+        min-w-0
+        px-4 sm:px-6
+        py-3
+        outline-none
+        bg-transparent
+        text-gray-700
+      "
+    />
+
+    <button
+      type="submit"
+      className="
+        px-4 sm:px-7
+        py-3
+        bg-gradient-to-r from-orange-500 to-red-500
+        text-white
+        font-semibold
+        uppercase text-xs sm:text-sm
+        tracking-wide
+        transition-all duration-300
+        hover:from-red-500 hover:to-orange-500
+        active:scale-95
+        whitespace-nowrap
+      "
+    >
+      Search
+    </button>
+  </div>
 </form>
+
 
 
       <ul className="flex gap-5">

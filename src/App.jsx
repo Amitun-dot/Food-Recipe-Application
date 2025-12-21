@@ -1,4 +1,3 @@
-
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar";
@@ -8,9 +7,11 @@ import Details from "./pages/details";
 
 function App() {
   return (
-    <div>
-      <div className="min-h-screen p-6 bg-white text-gray-600 text-lg">
-        <Navbar />
+    <div className="min-h-screen bg-white text-gray-600 text-lg">
+      <Navbar />
+
+      {/* Global page container */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
