@@ -1,4 +1,3 @@
-import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Home from "./pages/home";
@@ -7,17 +6,19 @@ import Details from "./pages/details";
 
 function App() {
   return (
-    <div className="min-h-screen bg-white text-gray-600 text-lg">
+    <div className="min-h-screen bg-[#f8f5ef] text-gray-700 text-base sm:text-lg">
+      
+      {/* Navbar */}
       <Navbar />
 
-      {/* Global page container */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/recipe-item/:id" element={<Details />} />
         </Routes>
-      </div>
+      </main>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const GlobalContext = createContext(null);
@@ -8,59 +8,70 @@ export default function GlobalState({ children }) {
   const [loading, setLoading] = useState(false);
   const [recipeList, setRecipeList] = useState([]);
   const [recipeDetailsData, setRecipeDetailsData] = useState(null);
-  const [favoritesList, setFavoritesList] = useState([])
+  const [favoritesList, setFavoritesList] = useState(() => {
+    const savedFavorites = localStorage.getItem("favorites");
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favoritesList));
+  }, [favoritesList]);
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    if (!searchParam.trim()) return;
+
     try {
+      setLoading(true);
+
       const res = await fetch(
         `https://forkify-api.herokuapp.com/api/v2/recipes?search=${searchParam}`
       );
 
       const data = await res.json();
+
       if (data?.data?.recipes) {
-        setRecipeList(data?.data?.recipes);
-        setLoading(false);
+        setRecipeList(data.data.recipes);
         setSearchParam("");
-        navigate('/')
+        navigate("/");
       }
     } catch (e) {
       console.log(e);
+    } finally {
       setLoading(false);
-      setSearchParam("");
     }
   }
 
-  function handleAddToFavorite(getCurrentItem){
-    console.log(getCurrentItem);
+  function handleAddToFavorite(getCurrentItem) {
     let cpyFavoritesList = [...favoritesList];
-    const index = cpyFavoritesList.findIndex(item=> item.id === getCurrentItem.id)
+    const index = cpyFavoritesList.findIndex(
+      (item) => item.id === getCurrentItem.id
+    );
 
-    if(index === -1) {
-      cpyFavoritesList.push(getCurrentItem)
+    if (index === -1) {
+      cpyFavoritesList.push(getCurrentItem);
     } else {
-      cpyFavoritesList.splice(index)
+      cpyFavoritesList.splice(index, 1);
     }
 
-    setFavoritesList(cpyFavoritesList)
+    setFavoritesList(cpyFavoritesList);
   }
-
-  console.log(favoritesList, 'favoritesList');
 
   return (
     <GlobalContext.Provider
       value={{
         searchParam,
+        setSearchParam,
         loading,
         recipeList,
-        setSearchParam,
-        handleSubmit,
         recipeDetailsData,
         setRecipeDetailsData,
+        favoritesList,
+        handleSubmit,
         handleAddToFavorite,
-        favoritesList
       }}
     >
       {children}
